@@ -1,0 +1,38 @@
+struct Trie {
+private:
+    Trie* childs[26];
+    bool isEnd;
+public:
+    Trie() {
+        memset(childs, NULL, sizeof childs);
+        isEnd = false;
+    }
+    void insert(string::iterator it, string::iterator ed) {
+        if (it == ed) {
+            isEnd = true;
+            return;
+        }
+        if (childs[*it - 'a'] == NULL) {
+            childs[*it - 'a'] = new Trie;
+        }
+        childs[*it - 'a']->insert(it + 1, ed);
+    }
+    bool isExist(string::iterator it, string::iterator ed) {
+        if (it == ed) {
+            return isEnd;
+        }
+        if (childs[*it - 'a'] == NULL) {
+            return false;
+        }
+        return childs[*it - 'a']->isExist(it + 1, ed);
+    }
+    bool isPrefixExist(string::iterator it, string::iterator ed) {
+        if (it == ed) {
+            return true;
+        }
+        if (childs[*it - 'a'] == NULL) {
+            return false;
+        }
+        return childs[*it - 'a']->isExist(it + 1, ed);
+    }
+};

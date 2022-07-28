@@ -1,0 +1,10 @@
+		long long ans = 0, sum = 0, start = 0, end = 0, st = 0;
+		for (int i = 0; i < n - 1; i++) {
+			cin >> x;
+			if (sum < 0) {
+				sum = x;
+				st = i;
+			}
+			else sum += x;
+			if (sum > ans || (sum == ans && i - st > end - start))ans = sum, start = st, end = i;
+		}

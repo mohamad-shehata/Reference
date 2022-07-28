@@ -1,0 +1,4 @@
+int Random(int n) {
+	srand((unsigned)time(0));
+	return rand() % n;
+}

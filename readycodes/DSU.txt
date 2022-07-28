@@ -1,0 +1,80 @@
+struct Edge {
+    int from, to;
+    long long weight;
+    Edge(){
+        from = to = weight = 0ll;
+    }
+    Edge(int from, int to, long long weight) : from(from), to(to), weight(weight) {}
+
+    bool operator<(const Edge &ed) const {
+        return weight < ed.weight;
+    }
+};
+struct DSU {
+private:
+    int numOfGroups;
+    vector<int> root, groupSize;
+    vector<long long> groupSum;
+public:
+    DSU(int n) {
+        root.resize(n);
+        groupSize.resize(n);
+        groupSum.resize(n);
+        numOfGroups = n;
+        for (int i = 0; i < n; i++) {
+            groupSum[i] = i;
+            root[i] = i;
+            groupSize[i] = 1;
+        }
+    }
+    int getRoot(int u) {
+        return root[u] = (u == root[u] ? u : getRoot(root[u]));
+    }
+    bool isJoined(int x, int y) {
+        int root1 = getRoot(x);
+        int root2 = getRoot(y);
+        return root1 == root2;
+    }
+
+    bool isJoined(Edge &ed) {
+        return isJoined(ed.from, ed.to);
+    }
+
+    void join(int x, int y) {
+        int root1 = getRoot(x);
+        int root2 = getRoot(y);
+        if (root1 == root2)return;
+        numOfGroups--;
+ if (groupSize[root1] < groupSize[root2]) {
+            swap(root1, root2);
+        }
+        if (groupSize[root1] > groupSize[root2]) {
+            root[root2] = root1;
+            groupSize[root1] += groupSize[root2];
+            groupSum[root1] += groupSum[root2];
+        }
+        else {
+            root[root1] = root2;
+            groupSize[root2] += groupSize[root1];
+            groupSum[root2] += groupSum[root1];
+        }
+    }
+
+    long long getGroupSum(int u) {
+        int root1 = getRoot(u);
+        return groupSum[root1];
+    }
+
+    void join(Edge &ed){
+        join(ed.from, ed.to);
+    }
+
+    int getGroupSize(int u) {
+        int root1 = getRoot(u);
+        return groupSize[root1];
+    }
+
+    int getNumOfGroups(){
+        return numOfGroups;
+    }
+};

@@ -1,0 +1,7 @@
+for(int i=0;i<n;i++){
+cin>>array[i];
+}
+prefix[0]=array[0]
+for(int i=1;i<n;i++){
+prefix[i]=prefix[i-1]+array[i];
+}

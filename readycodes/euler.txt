@@ -1,0 +1,10 @@
+void euler(vector< vi > & adjMax, vi & ret, int n, int i, bool isDirected = false) {
+	lp(j, n) {
+		if(adjMax[i][j]) {
+			adjMax[i][j]--;
+			if(!isDirected)		adjMax[j][i]--;
+			euler( adjMax, ret, n, j, isDirected );
+		}
+	}
+	ret.push_back( i );
+}

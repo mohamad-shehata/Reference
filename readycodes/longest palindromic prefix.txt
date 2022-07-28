@@ -1,0 +1,18 @@
+int lpsPrefix(string str){
+    string temp = str + '?';
+    reverse(str.begin(), str.end());
+    temp += str;
+    int n = temp.length();
+    vector<int>lps(n, 0);
+    for (int i = 1; i < n; i++) {
+        int len = lps[i - 1];
+        while (len > 0 && temp[len] != temp[i]) {
+            len = lps[len - 1];
+        }
+        if (temp[i] == temp[len]) {
+            len++;
+        }
+        lps[i] = len;
+    }
+    return lps[n - 1];
+}

@@ -1,0 +1,23 @@
+int n;
+vector<bool>visit;
+vector<int>solve;
+void perm(int num = 0) {
+	if (solve.size() == n) {
+		for (int i = 0; i < n; i++) {
+			cout << solve[i];
+			if (i < n-1)
+				cout << " ";
+		}
+		cout << endl;
+		return;
+	}
+	for (int i = 1; i <= n; i++) {
+		if (!visit[i]) {
+			solve.push_back(i);
+			visit[i] = 1;
+			perm();
+			visit[i] = 0;
+			solve.pop_back();
+		}
+	}
+}

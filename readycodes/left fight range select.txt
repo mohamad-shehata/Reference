@@ -1,0 +1,15 @@
+ multiset<int> st;
+    sort(all(v), [&](const pair<int, int> &a, const pair<int, int> &b) {
+        if (a.second != b.second)
+            return a.second < b.second;
+        return a.first < b.first;
+    });
+    int ans = 0;
+    for (auto &p: v) {
+        int l = p.first, r = p.second;
+        auto it = st.lower_bound(l);
+        if (it == st.end() || *it > r)continue;
+        st.erase(it);
+        ans++;
+    }
+    cout << ans << endl;

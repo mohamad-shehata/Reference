@@ -1,0 +1,37 @@
+vector<vector<int>>adj, comps;
+vector<int>dfsn, lowLink, myComp;
+vector<bool>inStack;
+stack<int>st;
+int id = 1;
+____________________________________________________________
+void tarjan(int node) {
+	dfsn[node] = lowLink[node] = id++, inStack[node] = 1;
+	st.push(node);
+	for (auto child : adj[node]) {
+		if (!dfsn[child]) {
+			tarjan(child);
+			lowLink[node] = min(lowLink[node], lowLink[child]);
+		}
+		else if (inStack[child])
+			lowLink[node] = min(lowLink[node], dfsn[child]);
+	}
+	if (lowLink[node] == dfsn[node]) {
+		comps.push_back(vector<int>());
+		int temp;
+		do {
+			temp = st.top(), st.pop(), inStack[temp] = 0;
+			comps.back().push_back(temp);
+			myComp[temp] = comps.size() - 1;
+		} while (temp != node);
+	}
+}
+______________________________________________________________
+id = 1;
+		st = stack<int>();
+		adj.clear(), dfsn.clear(), lowLink.clear(), myComp.clear(), inStack.clear(), comps.clear();
+		adj.resize(n), dfsn.resize(n), lowLink.resize(n), myComp.resize(n), inStack.resize(n);
+______________________________________________________________
+for (int i = 0; i < n; i++) {
+			if (!dfsn[i])
+				tarjan(i);
+		}

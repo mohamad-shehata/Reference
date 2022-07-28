@@ -1,0 +1,17 @@
+ll ts() {
+ int st = 0, ed = 1e6;
+ ll rt = INF;
+ while (ed - st > 3) {
+  int md1 = st + (ed - st) / 3, md2 = ed - (ed - st) / 3;
+  ll f1 = fun(md1), f2 = fun(md2);
+  if (f1 < f2)
+   ed = md2;
+  else if (f1 > f2)
+   st = md1;
+  else
+   st = md1, ed = md2;
+ }
+ for (int i = st; i <= ed; i++)
+  rt = min(rt, fun(i));
+ return rt;
+}

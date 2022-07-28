@@ -1,0 +1,32 @@
+vector<vector<int>>adj;
+set<int>artPoints;
+vector<int>dfsn, lowLink;
+int id = 1;
+bool root = 0;
+________________________________________________________________
+void tarjan(int node, int parent) {
+	dfsn[node] = lowLink[node] = id++;
+	for (auto child : adj[node]) {
+		if (!dfsn[child]) {
+			tarjan(child, node);
+			lowLink[node] = min(lowLink[node], lowLink[child]);
+			if (dfsn[node] <= lowLink[child])
+				if (parent == -1 && !root)root = 1;
+				else
+					artPoints.insert(node);
+		}
+		else if (parent != child)
+			lowLink[node] = min(lowLink[node], dfsn[child]);
+	}
+}
+____________________________________________________________________
+                id=1;
+		adj.clear(), dfsn.clear(), lowLink.clear();
+		adj.resize(n), dfsn.resize(n), lowLink.resize(n);
+		artPoints.clear();
+____________________________________________________________________
+		for (int i = 0; i < n; i++) {
+			root = 0;
+			if (!dfsn[i])
+				tarjan(i, -1);
+		}

@@ -1,0 +1,72 @@
+struct SegType{
+};
+struct SegmentTree {
+public:
+    SegmentTree(int sz) {
+        this->sz = sz - 1;
+        segVal.resize(4 * sz + 10);
+        lazy.resize(4 * sz + 10);
+        //build(1, 1, sz);
+    }
+
+    void update(int l, int r, int newVal) {
+        update(1, 1, sz, l, r, newVal);
+    }
+
+    long long get(int strt, int ed) {
+        return get(1, 1, sz, strt, ed);
+    }
+
+private:
+    int sz;
+    vector<long long> segVal, lazy, arr;
+
+    static int merge(int lSeg, int rSeg) {
+        return min(lSeg, rSeg);
+    }
+
+    void build(int n, int l, int r) {
+        if (l == r) {
+            segVal[n] = arr[l];
+            return;
+        }
+        build(2 * n, l, (l + r) / 2);
+        build(2 * n + 1, (l + r) / 2 + 1, r);
+        //merge
+        segVal[n] = merge(segVal[2 * n], segVal[2 * n + 1]);
+    }
+
+
+    void push(int n, int l, int r) {
+        segVal[n] -= lazy[n] * (r - l + 1);
+        if (l != r) {
+            lazy[2 * n] += lazy[n];
+            lazy[2 * n + 1] += lazy[n];
+        }
+        lazy[n] = 0;
+    }
+
+    long long get(int n, int l, int r, int strt, int ed) {
+        push(n, l, r);
+        if (r < strt || l > ed)
+            return 0;
+        if (l >= strt && r <= ed) {
+            return segVal[n];
+        }
+        return merge(get(2 * n, l, (l + r) / 2, strt, ed), get(2 * n + 1, (l + r) / 2 + 1, r, strt, ed));
+    }
+
+    void update(int n, int l, int r, int strt, int ed, int newVal) {
+        push(n, l, r);
+        if (r < strt || l > ed)
+            return;
+        if (l >= strt && r <= ed) {
+            lazy[n] = newVal;
+            push(n, l, r);
+            return;
+        }
+        update(2 * n, l, (l + r) / 2, strt, ed, newVal);
+        update(2 * n + 1, (l + r) / 2 + 1, r, strt, ed, newVal);
+        segVal[n] = merge(segVal[2 * n], segVal[2 * n + 1]);
+    }
+};

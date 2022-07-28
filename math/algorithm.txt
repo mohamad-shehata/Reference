@@ -1,0 +1,12 @@
+sort(v.begin,v.end)
+lower_bound(v.begin,v.end,x)-v.begin()->بترجع الاندكس بتاع اول رقم بيساويك او اول رقم اكبر منك
+upper_bound(v.begin,v.end,x)-v.begin()->بتجبلي الاندكس بتاع اول رقم ابكر مني ولو مكنش الرقم الاكبر مني موجود هيرجع سايز الارراي
+لانه بيرجع ادريس علشان كده هطرح منه ادرس بتاع اول رقم والكلام ده بيبقا في الفيكتور والسترينج
+ولو ارراي بطرح الارراي
+*reverae
+*count
+*search
+*binary_search(v.begin(),v.end())->true or false
+*fill
+*remove
+next/prev_permutation

@@ -1,0 +1,27 @@
+vector<vector<int>>adj;
+vector<pair<int, int>>bridges;
+vector<int>dfsn, lowLink;
+int id = 1;
+_________________________________________________________
+void tarjan(int node, int parent) {
+	dfsn[node] = lowLink[node] = id++;
+	for (auto child : adj[node]) {
+		if (!dfsn[child]) {
+			tarjan(child, node);
+			lowLink[node] = min(lowLink[node], lowLink[child]);
+			if (dfsn[node] < lowLink[child])
+				bridges.push_back({ min(node,child),max(node,child) });
+		}
+		else if (parent != child)
+			lowLink[node] = min(lowLink[node], dfsn[child]);
+	}
+}
+___________________________________________________________
+		id = 1;
+		adj.clear(), dfsn.clear(), lowLink.clear(),bridges.clear();
+		adj.resize(n), dfsn.resize(n), lowLink.resize(n);
+______________________________________________________________
+for (int i = 0; i < n; i++) {
+			if (!dfsn[i])
+				tarjan(i,-1);
+		}

@@ -1,0 +1,63 @@
+struct SegType{
+};
+struct SegmentTree {
+public:
+    SegmentTree(vector<int> arr) {
+        this->arr = arr;
+        sz = arr.size() - 1;
+        segVal.resize(4 * sz + 10);
+        build(1, 1, sz);
+    }
+
+    int get(int l, int r, int k) {
+        return get(1, 1, sz, l, r, k);
+    }
+
+private:
+    int sz;
+    vector<int> arr;
+    vector<vector<int>> segVal;
+
+    int getGreater(vector<int> &v, int k) {
+        return v.end() - upper_bound(v.begin(), v.end(), k);
+    }
+
+    vector<int> merge(vector<int> &lSeg, vector<int> &rSeg) {
+        vector<int> merged;
+        int idx1 = 0, idx2 = 0;
+        for (; idx1 < lSeg.size() && idx2 < rSeg.size();) {
+            if (lSeg[idx1] < rSeg[idx2]) {
+                merged.push_back(lSeg[idx1++]);
+            } else {
+                merged.push_back(rSeg[idx2++]);
+            }
+        }
+        while (idx1 < lSeg.size()) {
+            merged.push_back(lSeg[idx1++]);
+        }
+        while (idx2 < rSeg.size()) {
+            merged.push_back(rSeg[idx2++]);
+        }
+        return merged;
+    }
+
+    void build(int n, int l, int r) {
+        if (l == r) {
+            segVal[n].push_back(arr[l]);
+            return;
+        }
+        build(2 * n, l, (l + r) / 2);
+        build(2 * n + 1, (l + r) / 2 + 1, r);
+        segVal[n] = merge(segVal[2 * n], segVal[2 * n + 1]);
+    }
+
+    int get(int n, int l, int r, int strt, int ed, int k) {
+        if (r < strt || l > ed)
+            return {};
+        if (l >= strt && r <= ed) {
+            return getGreater(segVal[n], k);
+        }
+
+        return get(2 * n, l, (l + r) / 2, strt, ed, k) + get(2 * n + 1, (l + r) / 2 + 1, r, strt, ed, k);
+    }
+};

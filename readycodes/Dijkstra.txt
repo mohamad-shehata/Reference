@@ -1,0 +1,36 @@
+struct Edge {
+    int from, to;
+    long long weight;
+    Edge(){
+        from = to = weight = 0ll;
+    }
+    Edge(int from, int to, long long weight) : from(from), to(to), weight(weight) {}
+
+    bool operator<(const Edge &ed) const {
+        return weight > ed.weight;
+    }
+};
+
+vector<vector<edge>>adj;
+int dis[100005], pre[100005];
+priority_queue<edge>pr;
+
+
+
+void Dijkstra(int strt) {
+    dis[strt] = 0;
+    pr.push(edge(-1, strt, 0));
+    while (!pr.empty()) {
+        edge ed = pr.top();
+        pr.pop();
+        if (ed.weight > dis[ed.to])
+            continue;
+        pre[ed.to] = ed.from;
+        for (auto childEdg : adj[ed.to]) {
+            if (dis[childEdg.to] > dis[childEdg.from] + childEdg.weight) {
+                childEdg.weight = dis[childEdg.to] = dis[childEdg.from] + childEdg.weight;
+                pr.push(childEdg);
+            }
+        }
+    }
+}

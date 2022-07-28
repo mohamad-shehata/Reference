@@ -1,0 +1,49 @@
+long long FastPower(long long x, long long y, int _mod) {
+    return!y ? 1 : (((y & 1) ? (x % _mod) : 1) * FastPower(((x % _mod) * (x % _mod)) % _mod, y >> 1, _mod)) % _mod;
+}
+long long power(long long x, unsigned long long y)
+{
+	long long res = 1; 
+
+	while (y > 0)
+	{ 
+		if (y & 1)
+			res = res * x;
+
+		y = y >> 1; 
+		x = x * x;
+	}
+	return res;
+}
+
+
+
+
+
+
+
+
+
+
+__________________________________________________________________________________
+/* Iterative Function to calculate (x^y) in O(log y) */
+int power(int x, unsigned int y) 
+{ 
+ int res = 1;  // Initialize result 
+
+ while (y > 0) 
+ { 
+  // If y is odd, multiply x with result 
+  if (y & 1) 
+   res = res*x; 
+
+  // y must be even now 
+  y = y>>1; // y = y/2 
+  x = x*x; // Change x to x^2 
+ } 
+ return res; 
+}
+
+ll FastPower(ll x, ll y,ll Mod) {
+    return(!y ? 1 : (((y & 1) ? x : 1) % Mod * FastPower((x % Mod) * (x % Mod) % Mod, y >> 1, Mod) % mod) % Mod);
+}

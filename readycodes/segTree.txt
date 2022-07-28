@@ -1,0 +1,62 @@
+struct SegType{
+};
+struct SegmentTree {
+public:
+    SegmentTree(vector<int> arr) {
+        this->arr = arr;
+        sz = arr.size() - 1;
+        segVal.resize(4 * sz + 10);
+        build(1, 1, sz);
+    }
+
+    int get(int l, int r) {
+        return get(1, 1, sz, l, r);
+    }
+
+    void update(int idx, int newVal){
+        update(1, 1, sz, idx, newVal);
+    }
+
+private:
+    int sz;
+    vector<int> segVal, arr;
+
+    static int merge(int lSeg, int rSeg) {
+        return min(lSeg, rSeg);
+    }
+
+    void build(int n, int l, int r) {
+        if (l == r) {
+            segVal[n] = arr[l];
+            return;
+        }
+        build(2 * n, l, (l + r) / 2);
+        build(2 * n + 1, (l + r) / 2 + 1, r);
+        segVal[n] = merge(segVal[2 * n], segVal[2 * n + 1]);
+    }
+
+    int get(int n, int l, int r, int strt, int ed) {
+        if (r < strt || l > ed)
+            return 1e9;
+        if (l >= strt && r <= ed) {
+            return segVal[n];
+        }
+
+        return merge(
+                get(2 * n, l, (l + r) / 2, strt, ed),
+                get(2 * n + 1, (l + r) / 2 + 1, r, strt, ed)
+        );
+    }
+
+    void update(int n, int l, int r, int idx, int newVal) {
+        if (r < idx || l > idx)
+            return;
+        if (l == r) {
+            segVal[n] = newVal;
+            return;
+        }
+        update(2 * n, l, (l + r) / 2, idx, newVal);
+        update(2 * n + 1, (l + r) / 2 + 1, r, idx, newVal);
+        segVal[n] = merge(segVal[2 * n], segVal[2 * n + 1]);
+    }
+};

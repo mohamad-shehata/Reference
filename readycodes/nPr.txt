@@ -1,0 +1,9 @@
+ll nPr(int n, int r)
+{
+	ll solve = 1;
+	for (int i = (n - r + 1); i <= n; i++) {
+		solve *= i;
+		solve %= mod;
+	}
+	return solve;
+}

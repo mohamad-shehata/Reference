@@ -1,0 +1,11 @@
+int LIS(vector<pair<int, int>> v) {
+    vector<int> lis(v.size());
+    int l = 0;
+    for (int i = 0; i < v.size(); i++) {
+        int idx = lower_bound(lis.begin(), lis.begin() + l, v[i].second) - lis.begin();
+        if (idx == l)
+            l++;
+        lis[idx] = v[i].second;
+    }
+    return l;
+}

@@ -1,0 +1,18 @@
+https://www.youtube.com/watch?v=JUzYl1TYMcU&feature=youtu.be&fbclid=IwAR1p5D9dIkKTPeQ8xdXp0WPiHnH0MuiroEIuyGC-9dr08cKWFVE1X9uRvyc
+⁄·‘«‰ «Õ”» «·LCM
+«’€— —ﬁ„ Ìﬁ»· «·ﬁ”„Â ⁄·Ì x,y
+A*b/ gcd
+#include<iostream>
+using namespace std;
+int main(){
+	long long m, n, t = 0;
+	cin >> m >> n;
+	while (n)
+	{
+		t = m%n;
+		m = n;
+		n = t;
+	}
+	cout << abs(m) << endl;
+	return 0;
+}

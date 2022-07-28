@@ -1,0 +1,62 @@
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<bits/stdc++.h>
+#include<unordered_map>
+using namespace std;
+void Fast() {
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+}
+void File() {
+#ifndef ONLINE_JUDGE
+	freopen("Input.txt", "r", stdin);
+	freopen("Output.txt", "w", stdout);
+#endif
+}
+#define ll long long
+#define ull unsigned long long
+int fact(int n)
+{
+	if (n <= 1)
+		return 1;
+	return ((n) * (fact(n - 1)));
+}
+int nPr(int n, int r)
+{
+	return fact(n) / fact(n - r);
+}
+ll gcd(ll a, ll b) {
+	return b == 0 ? a : gcd(b, a % b);
+}
+#define fixed(n) cout << fixed << setprecision(n);
+#define numOfOnes(n) __builtin_popcount(n)
+#define skip continue
+#define stop return 0
+#define pi  acos(-1)
+#define endl "\n"
+#define all(a) a.begin(), a.end()
+int main() {
+	Fast(), File();
+	string s;
+	cin >> s;
+	vector<vector<int>>v(26, vector<int>(s.size() + 2));
+	for (int i = 0; i < s.size(); i++) {
+		v[s[i] - 'a'][i+1] = 1;
+	}
+	for (int i = 0; i < 26; i++) {
+		for (int j = 1; j <= s.size(); j++) {
+			v[i][j] += v[i][j - 1];
+		}
+	}
+	int q;
+	cin >> q;
+	int cnt = 0,l,r;
+	while (q--) {
+		cnt = 0;
+		cin >> l >> r;
+		for (int i = 0; i < 26; i++) {
+			if (v[i][r] - v[i][l - 1] > 0)
+				cnt++;
+		}
+	cout << cnt << endl;
+	}
+}

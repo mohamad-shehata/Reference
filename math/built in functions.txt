@@ -1,0 +1,4 @@
+*_builtin_popcount(x) count ones
+*_builtin_parity(x) return true if number of ones is odd
+*__builtin_clz(x) count leading zeros(it calcs the sign bit)
+*__builtin_ctz(x) count trailing zeros

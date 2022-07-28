@@ -1,0 +1,83 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <bits\stdc++.h>
+using namespace std;
+#define endl "\n"
+void File() {
+#ifndef ONLINE_JUDGE
+    freopen("Input.txt", "r", stdin);
+    freopen("Output.txt", "w", stdout);
+#endif
+}
+#define Fast ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+void solve() {
+}
+int main() {
+    File();
+    Fast;
+}
+_________________________________________________________________________________________________________________________________________________
+/*الحكمة ضالة المؤمن فأنا وجدها فهو احق بها*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<bits/stdc++.h>
+#include <Windows.h>
+#include<unordered_map>
+using namespace std;
+//<DEFINE>
+void HideConsole()
+{
+    ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+}
+
+void ShowConsole()
+{
+    ::ShowWindow(::GetConsoleWindow(), SW_SHOW);
+}
+
+void Fast() {
+    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+}
+void File() {
+#ifndef ONLINE_JUDGE
+    HideConsole();
+    freopen("Input.txt", "r", stdin);
+    freopen("Output.txt", "w", stdout);
+#endif
+}
+#ifdef _MSC_VER
+#include <intrin.h>
+#define __builtin_popcount __popcnt
+#ifdef _WIN64
+#define __builtin_popcountll __popcnt64
+#else
+inline int __builtin_popcountll(__int64 a) {
+	return __builtin_popcount((unsigned int)a) + __builtin_popcount(a >> 32);
+}
+#endif
+#endif
+using ll = long long;
+using ull = unsigned long long;
+#define mod 1000000007
+ll gcd(ll a, ll b) {
+	return!b ? a : gcd(b, a % b);
+}
+#define fix(n) cout << fixed << setprecision(n);
+#define all(a) a.begin(), a.end()
+#define rall(a) a.rbegin(), a.rend()
+#define skip continue
+#define pi  acos(-1)
+#define endl "\n"
+//sin(x*pi/180)
+#define ceil(x,y) (((x)+(y)-1)/(y))
+#define clr(v,d) memset(v, d, sizeof v)
+//alot of memset may cause TLE
+#define TC int t$$t$;cin>>t$$t$;while(t$$t$--)
+//</DEFINE>
+int dx[] = { 0,0,-1,1,1,1,-1,-1 };
+int dy[] = { 1,-1,0,0,1,-1,1,-1 };
+//***********stop when you reach the concept of don't stop***********//
+//<FUNCTIONS>
+//</FUNCTIONS>	
+int main() {
+	Fast();
+        File();
+}

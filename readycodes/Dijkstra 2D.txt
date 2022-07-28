@@ -1,0 +1,40 @@
+struct edge {
+    int from, to;
+    long long weight;
+    edge(){
+        from = to = weight = 0ll;
+    }
+    edge(int from, int to, long long weight) : from(from), to(to), weight(weight) {}
+
+    bool operator<(const edge &ed) const {
+        return weight > ed.weight;
+    }
+};
+
+vector<vector<edge>>adj;
+ll dis[1005][1005];
+int n, m, arr[1005][1005];
+priority_queue<edge>pr;
+
+bool valid(int x, int y) {
+    return x >= 0 && x < n&& y >= 0 && y < m;
+}
+
+void Dijkstra(int x,int y) {
+    dis[x][y] = arr[x][y];
+    pr.push(edge(make_pair(-1,-1), make_pair(x, y), 0));
+    while (!pr.empty()) {
+        edge ed = pr.top();
+        pr.pop();
+        if (ed.weight > dis[ed.to.first][ed.to.second])skip;
+        for (int k = 0; k < 4; k++) {
+            x = ed.to.first + dx[k], y = ed.to.second + dy[k];
+            if (valid(x, y) && dis[x][y] > dis[ed.to.first][ed.to.second] + arr[x][y]) {
+                edge ne;
+                ne.weight = arr[x][y] = dis[x][y] = dis[ed.to.first][ed.to.second] + arr[x][y];
+                ne.from = ed.to, ne.to = make_pair(x, y);
+                pr.push(ne);
+            }
+        }
+    }
+}

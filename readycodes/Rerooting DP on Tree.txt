@@ -1,0 +1,30 @@
+vector<vector<pair<int, int>>>adj;
+vector<long long>subAns, sum, nodeVal;
+long long ans = LLONG_MAX;
+int id = 1e9;
+void preCal(int node = 0, int par = -1) {
+    sum[node] = nodeVal[node];
+    for (auto child: adj[node]) {
+        if (child.first == par) continue;
+        preCal(child.first, node);
+        sum[node] += sum[child.first];
+        subAns[node] += sum[child.first] * child.second + subAns[child.first];
+    }
+}
+void dfs(int node = 0, int par = -1) {
+    //root answer
+    if (subAns[node] < ans){
+        ans = subAns[node];
+        id = node;
+    }
+    else if (subAns[node] == ans)
+        id = min(id, node);
+    for (auto child: adj[node]) {
+        if (child.first == par) continue;
+        long long newCost = subAns[node] - subAns[child.first] - sum[child.first] * child.second;
+        long long newSum = sum[node] - sum[child.first];
+        subAns[child.first] += newCost + newSum * child.second;
+        sum[child.first] += newSum;
+        dfs(child.first, node);
+    }
+}
