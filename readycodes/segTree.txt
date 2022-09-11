@@ -26,6 +26,8 @@ private:
     }
 
     void build(int n, int l, int r) {
+        if(r < l)
+            return;
         if (l == r) {
             segVal[n] = arr[l];
             return;

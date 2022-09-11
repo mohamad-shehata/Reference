@@ -1,0 +1,53 @@
+vector<long long> powersOfBase(1000005);
+
+long long egcd(long long a, long long b, long long &x, long long &y) {
+    if (!b) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    long long g = egcd(b, a % b, y, x);
+    y -= (a / b) * x;
+    return g;
+}
+
+long long modInverse(long long a, long long m) {
+    long long x, y, g;
+    g = egcd(a, m, x, y);
+    if (g > 1)
+        return -1;
+    return (x + m) % m;
+}
+
+
+//x always equal to 128 and p=1e9+7
+//sometimes we need to use mod inverse
+// (a/b)%m=(a*modInverse(b))%m
+
+//Complexity O(1)
+long long hashPushBack(long long _hashedVal, long long _base, long long _prime, int _toHash) {
+    return ((_hashedVal * _base) % _prime + _toHash) % _prime;
+}
+
+//Complexity O(1)
+long long hashPopBack(long long _hashedVal, long long _base, long long _prime, int _toPop) {
+    return ((((_hashedVal - _toPop + _prime) % _prime) * modInverse(_base, _prime)) % _prime + _prime) % _prime;
+}
+
+//complexity O(log(n))
+//we can make it take O(1) by preprocessing store along long power from xe0 to xe(length of the string)
+long long hashPopFront(long long _hashedVal, long long _prime, int _toPop, int powersOfBaseIdx) {
+    return ((_hashedVal - (_toPop * powersOfBase[powersOfBaseIdx - 1]) % _prime) + _prime) % _prime;
+}
+
+long long hashPushFront(long long _hashedVal, long long _prime, int _toHash, int powersOfBaseIdx) {
+    return ((_hashedVal + (_toHash * powersOfBase[powersOfBaseIdx]) % _prime) + _prime) % _prime;
+}
+
+const long long BASE = 128;
+const long long PRIME = 1e9 + 7;
+// preprocessing
+powersOfBase[0] = 1;
+for (long long i = 1; i < 1000005; i++) {
+    powersOfBase[i] = (powersOfBase[i - 1] * BASE) % PRIME;
+}

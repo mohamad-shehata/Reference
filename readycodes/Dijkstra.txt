@@ -11,17 +11,17 @@ struct Edge {
     }
 };
 
-vector<vector<edge>>adj;
+vector<vector<Edge>>adj;
 int dis[100005], pre[100005];
-priority_queue<edge>pr;
+priority_queue<Edge>pr;
 
 
 
 void Dijkstra(int strt) {
     dis[strt] = 0;
-    pr.push(edge(-1, strt, 0));
+    pr.push(Edge(-1, strt, 0));
     while (!pr.empty()) {
-        edge ed = pr.top();
+        Edge ed = pr.top();
         pr.pop();
         if (ed.weight > dis[ed.to])
             continue;
