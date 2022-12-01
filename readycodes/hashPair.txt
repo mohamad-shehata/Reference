@@ -1,0 +1,5 @@
+struct HASH {
+    size_t operator()(const pair<int, int> &x) const {
+        return hash<int>()(((int) x.first) ^ (((int) x.second) << 32));
+    }
+};

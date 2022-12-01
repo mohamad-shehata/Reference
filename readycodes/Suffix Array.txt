@@ -1,0 +1,73 @@
+class SuffixArray {
+    int getOrder(int a) const {
+        return (a < (int) order.size() ? order[a] : 0);
+    }
+ 
+    void radix_sort(int k) {
+        vector<int> frq(n), tmp(n);
+        for (auto &it: suf)
+            frq[getOrder(it + k)]++;
+        for (int i = 1; i < n; i++)
+            frq[i] += frq[i - 1];
+        for (int i = n - 1; i >= 0; i--)
+            tmp[--frq[getOrder(suf[i] + k)]] = suf[i];
+        suf = tmp;
+    }
+ 
+public:
+    int n;
+    string s;
+    vector<int> suf, lcp, order; // order store position of suffix i in suf array
+    SuffixArray(const string &s) :
+            n(s.size() + 1), s(s) {
+        suf = order = vector<int>(n);
+        vector<int> newOrder(n);
+        for (int i = 0; i < n; i++)
+            suf[i] = i;
+        { //sort according to first character
+            vector<int> tmp(n);
+            for (int i = 0; i < n; i++)
+                tmp[i] = s[i];
+            sort(tmp.begin(), tmp.end());
+            for (int i = 0; i < n; i++)
+                order[i] = (lower_bound(tmp.begin(), tmp.end(), s[i]) - tmp.begin());
+        }
+        for (int len = 1; newOrder.back() != n - 1; len <<= 1) {
+            auto cmp = [&](const int &a, const int &b) {
+                if (order[a] != order[b])
+                    return order[a] < order[b];
+                return getOrder(a + len) < getOrder(b + len);
+            };
+            //sort(suf.begin(), suf.end(), cmp); //run in 576ms (n<=4e5)
+            radix_sort(len); //sort second part
+            radix_sort(0); //sort first part
+            newOrder[0] = 0;
+            for (int i = 1; i < n; i++)
+                newOrder[i] = newOrder[i - 1] + cmp(suf[i - 1], suf[i]);
+            for (int i = 0; i < n; i++)
+                order[suf[i]] = newOrder[i];
+        }
+        buildLCP();
+    }
+ 
+    /*
+    * longest common prefix
+    * O(n)
+    * lcp[i] = lcp(suf[i],suf[i-1])
+    */
+    void buildLCP() {
+        lcp = vector<int>(n);
+        int k = 0;
+        for (int i = 0; i < n - 1; i++) {
+            int pos = order[i];
+            if(pos == 0)
+                continue;
+            int j = suf[pos - 1];
+            while (s[i + k] == s[j + k])
+                k++;
+            lcp[pos] = k;
+            if (k)
+                k--;
+        }
+    }
+};

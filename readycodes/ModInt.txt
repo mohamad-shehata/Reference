@@ -1,0 +1,75 @@
+struct ModInt {
+#define CUR (*this)
+    static const int MOD = 998244353;
+    int val;
+
+    ModInt() {
+        val = 0;
+    }
+
+    ModInt(const long long &a) {
+        val = a % MOD;
+        if (val < 0)
+            val += MOD;
+    }
+
+    ModInt &operator+=(const ModInt &a) {
+        if ((val += a.val) >= MOD)
+            val -= MOD;
+        return CUR;
+    }
+
+    ModInt operator+(const ModInt &a) const {
+        ModInt c = CUR;
+        c += a;
+        return c;
+    }
+
+    ModInt &operator-=(const ModInt &a) {
+        if ((val -= a.val) < 0)
+            val += MOD;
+        return CUR;
+    }
+
+    ModInt operator-(const ModInt &a) const {
+        ModInt c = CUR;
+        c -= a;
+        return c;
+    }
+
+    ModInt operator*(const ModInt &a) const {
+        return ModInt(1LL * this->val * a.val);
+    }
+
+    ModInt &operator*=(const ModInt &a) {
+        CUR = CUR * a;
+        return CUR;
+    }
+
+    ModInt operator/(const ModInt &a) {
+        return CUR * power(a, MOD - 2);
+    }
+
+    ModInt &operator/=(const ModInt &a) {
+        CUR = CUR / a;
+        return CUR;
+    }
+
+    static ModInt power(ModInt x, long long y) {
+        ModInt res = 1;
+        while (y > 0) {
+            if (y & 1)
+                res *= x;
+            x *= x;
+            y >>= 1;
+        }
+        return res;
+    }
+
+    friend ostream &operator<<(ostream &out, const ModInt &a) {
+        out << a.val;
+        return out;
+    }
+
+#undef CUR
+};

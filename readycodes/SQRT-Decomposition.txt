@@ -1,17 +1,20 @@
-ll pack[100005];
-int arr[100005], sq, n;
+const int N = 100005;
+long long pack[N];
+int arr[N], sq, n;
 
 void update(int idx, int val) {
     pack[idx / sq] += val - arr[idx];
     arr[idx] = val;
 }
+
 void build() {
     for (int i = 0; i < n; i++) {
         pack[i / sq] += arr[i];
     }
 }
-ll getAns(int l, int r) {
-    ll sum = 0;
+
+long long getAns(int l, int r) {
+    long long sum = 0;
     if (l / sq == r / sq) {
         for (int i = l; i <= r; i++)
             sum += arr[i];
@@ -25,10 +28,11 @@ ll getAns(int l, int r) {
         sum += arr[r];
         r--;
     }
-    for (int i = l / sq; i <= r / sq;i++) {
+    for (int i = l / sq; i <= r / sq; i++) {
         sum += pack[i];
     }
     return sum;
 }
+
 
  sq = max(1, (int)sqrt(n))

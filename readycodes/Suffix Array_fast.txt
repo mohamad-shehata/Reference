@@ -1,0 +1,64 @@
+const int Max_N = 2e5 + 5;
+string str;
+int suffix[Max_N];
+int group[Max_N];
+int tg[Max_N < 128 ? 128 : Max_N];
+int newSuffix[Max_N];
+int gstart[Max_N];
+int lcp[Max_N];
+
+void buildLCP() {
+    int cnt = 0;
+    for (int i = 0; str[i]; i++) {
+        int j = suffix[group[i] - 1];
+        while (str[i + cnt] == str[j + cnt])
+            cnt++;
+        lcp[group[i]] = cnt;
+        if (cnt)
+            cnt--;
+    }
+}
+
+void buildSA() {
+    int n;
+    memset(tg, -1, (sizeof tg[0]) * 128);
+    for (n = 0; n == 0 || str[n - 1]; n++) {
+        newSuffix[n] = tg[str[n]];
+        tg[str[n]] = n;
+    }
+    int ng = -1, j = 0;
+    for (int i = 0; i < 128; ++i) {
+        if (tg[i] != -1) {
+            gstart[++ng] = j;
+            int cur = tg[i];
+            while (cur != -1) {
+                suffix[j++] = cur;
+                group[cur] = ng;
+                cur = newSuffix[cur];
+            }
+        }
+    }
+    tg[0] = tg[n - 1] = 0;
+    newSuffix[0] = suffix[0];
+    for (int h = 1; tg[n - 1] != n - 1; h <<= 1) {
+        for (int i = 0; i < n; ++i) {
+            j = suffix[i] - h;
+            if (j < 0)
+                continue;
+            newSuffix[gstart[group[j]]++] = j;
+        }
+        for (int i = 1; i < n; ++i) {
+            bool newgroup = group[newSuffix[i - 1]] < group[newSuffix[i]] ||
+                            group[newSuffix[i - 1]] == group[newSuffix[i]] &&
+                            group[newSuffix[i - 1] + h] < group[newSuffix[i] + h];
+            tg[i] = tg[i - 1] + newgroup;
+            if (newgroup)
+                gstart[tg[i]] = i;
+        }
+        for (int i = 0; i < n; ++i) {
+            suffix[i] = newSuffix[i];
+            group[suffix[i]] = tg[i];
+        }
+    }
+    buildLCP();
+}

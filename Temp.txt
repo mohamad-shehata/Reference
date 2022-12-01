@@ -1,20 +1,33 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <bits\stdc++.h>
+#include<bits/stdc++.h>
+
 using namespace std;
 #define endl "\n"
+
 void File() {
 #ifndef ONLINE_JUDGE
     freopen("Input.txt", "r", stdin);
     freopen("Output.txt", "w", stdout);
 #endif
 }
+
 #define Fast ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+
 void solve() {
 }
+
 int main() {
     File();
     Fast;
+    int t = 1;
+    cin >> t;
+    for (int i = 1; i <= t; i++) {
+        //   cout << "Case #" << i << ": ";
+        solve();
+    }
 }
+
+int dx[] = { 0,0,-1,1,1,1,-1,-1 };
+int dy[] = { 1,-1,0,0,1,-1,1,-1 };
 _________________________________________________________________________________________________________________________________________________
 /*الحكمة ضالة المؤمن فأنا وجدها فهو احق بها*/
 #define _CRT_SECURE_NO_WARNINGS

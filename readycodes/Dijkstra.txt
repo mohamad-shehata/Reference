@@ -11,8 +11,10 @@ struct Edge {
     }
 };
 
+const int N = 3e5 + 5;
+long long dis[N];
 vector<vector<Edge>>adj;
-int dis[100005], pre[100005];
+int pre[N];
 priority_queue<Edge>pr;
 
 

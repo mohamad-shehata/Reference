@@ -1,5 +1,5 @@
 long long FastPower(long long x, long long y, int _mod) {
-    return!y ? 1 : (((y & 1) ? (x % _mod) : 1) * FastPower(((x % _mod) * (x % _mod)) % _mod, y >> 1, _mod)) % _mod;
+    return !y ? 1 : (((y & 1) ? (x % _mod) : 1) * FastPower(((x % _mod) * (x % _mod)) % _mod, y >> 1, _mod)) % _mod;
 }
 long long power(long long x, unsigned long long y)
 {

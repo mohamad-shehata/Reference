@@ -1,0 +1,132 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define endl "\n"
+void File() {
+#ifndef ONLINE_JUDGE
+    freopen("Input.txt", "r", stdin);
+    freopen("Output.txt", "w", stdout);
+#endif
+}
+#define Fast ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+// RD => 0 0
+//RU => n - 1, 0
+// LD => 0, m - 1
+// LU => n - 1, m - 1
+vector<vector<int>>resRD;
+vector<vector<int>>resRU;
+vector<vector<int>>resLD;
+vector<vector<int>>resLU;
+vector<vector<char>> v;
+int n, m;
+bool valid(int i, int j){
+    return i >= 0 && i < n && j >= 0 && j < m;
+}
+int solveRD(int i, int j) {
+    if(!valid(i, j))
+        return 0;
+    int &mx = resRD[i][j];
+    if (~mx)
+        return mx;
+    int dis = i + j;
+    if (v[i][j] == 'B') {
+        mx = dis;
+    } else
+        mx = 0;
+    mx = max(mx, solveRD(i + 1, j));
+    mx = max(mx, solveRD(i, j + 1));
+    return mx;
+}
+int solveRU(int i, int j) {
+    if(!valid(i, j))
+        return 0;
+    int &mx = resRU[i][j];
+    if (~mx)
+        return mx;
+    int dis = n - 1 - i + j;
+    if (v[i][j] == 'B') {
+        mx = dis;
+    } else
+        mx = 0;
+    mx = max(mx, solveRU(i - 1, j));
+    mx = max(mx, solveRU(i, j + 1));
+    return mx;
+}
+int solveLD(int i, int j) {
+    if(!valid(i, j))
+        return 0;
+    int &mx = resLD[i][j];
+    if (~mx)
+        return mx;
+    int dis = i + m - 1 - j;
+    if (v[i][j] == 'B') {
+        mx = dis;
+    } else
+        mx = 0;
+    mx = max(mx, solveLD(i + 1, j));
+    mx = max(mx, solveLD(i, j - 1));
+    return mx;
+}
+int solveLU(int i, int j) {
+    if(!valid(i, j))
+        return 0;
+    int &mx = resLU[i][j];
+    if (~mx)
+        return mx;
+    int dis = n - 1 - i + m - 1 - j;
+    if (v[i][j] == 'B') {
+        mx = dis;
+    } else
+        mx = 0;
+    mx = max(mx, solveLU(i - 1, j));
+    mx = max(mx, solveLU(i, j - 1));
+    return mx;
+}
+void solve() {
+    cin >> n >> m;
+    v = vector<vector<char>>(n, vector<char>(m));
+    char ch;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> ch;
+            v[i][j] = ch;
+        }
+    }
+    resRD = vector<vector<int>>(n, vector<int>(m, -1));
+    resRU = vector<vector<int>>(n, vector<int>(m, -1));
+    resLD = vector<vector<int>>(n, vector<int>(m, -1));
+    resLU = vector<vector<int>>(n, vector<int>(m, -1));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            solveRD(i, j);
+            solveRU(i, j);
+            solveLD(i, j);
+            solveLU(i, j);
+        }
+    }
+    // RD => 0 0
+    //RU => n - 1, 0
+    // LD => 0, m - 1
+    // LU => n - 1, m - 1
+    int mn = 1e9, ansI, ansJ;
+    for (int i = 0; i < n; i++) {
+        int mx;
+        for (int j = 0; j < m; j++) {
+            mx = solveRD(i, j) - (i + j);
+            mx = max(mx, solveRU(i, j) - (n - 1 - i + j));
+            mx = max(mx, solveLD(i, j) - (i + m - 1 - j));
+            mx = max(mx, solveLU(i, j) - (n - 1 - i + m - 1 - j));
+            if (mx < mn) {
+                mn = mx;
+                ansI = i + 1;
+                ansJ = j + 1;
+            }
+        }
+    }
+    cout << ansI << " " << ansJ << endl;
+}
+int main() {
+    Fast;
+    File();
+    int t; cin >> t; while(t--)
+        solve();
+}

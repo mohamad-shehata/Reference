@@ -5,21 +5,21 @@ stack<int>st;
 int id = 1;
 ____________________________________________________________
 void tarjan(int node) {
-	dfsn[node] = lowLink[node] = id++, inStack[node] = 1;
+	dfsn[node] = lowLink[node] = id++, inStack[node] = true;
 	st.push(node);
 	for (auto child : adj[node]) {
 		if (!dfsn[child]) {
 			tarjan(child);
 			lowLink[node] = min(lowLink[node], lowLink[child]);
 		}
-		else if (inStack[child])
+		else if (inStack[child]) // else if (inStack[child] && child != parent) => undirected without multiple edges
 			lowLink[node] = min(lowLink[node], dfsn[child]);
 	}
 	if (lowLink[node] == dfsn[node]) {
 		comps.push_back(vector<int>());
 		int temp;
 		do {
-			temp = st.top(), st.pop(), inStack[temp] = 0;
+			temp = st.top(), st.pop(), inStack[temp] = false;
 			comps.back().push_back(temp);
 			myComp[temp] = comps.size() - 1;
 		} while (temp != node);

@@ -1,12 +1,14 @@
-ll nCr[N][N];
+const int N = 31;
+long long nCr[N][N];
+
 void pascal() {
-	nCr[0][0] = 1;
-	for (int i = 1; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			if (!j)
-				nCr[i][j] = nCr[i - 1][j];
-			else
-				nCr[i][j] = nCr[i - 1][j] + nCr[i - 1][j - 1];
-		}
-	}
+    nCr[0][0] = 1;
+    for (int i = 1; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (!j)
+                nCr[i][j] = nCr[i - 1][j];
+            else
+                nCr[i][j] = nCr[i - 1][j] + nCr[i - 1][j - 1];
+        }
+    }
 }
