@@ -1,11 +1,14 @@
-int LIS(vector<pair<int, int>> v) {
-    vector<int> lis(v.size());
-    int l = 0;
-    for (int i = 0; i < v.size(); i++) {
-        int idx = lower_bound(lis.begin(), lis.begin() + l, v[i].second) - lis.begin();
-        if (idx == l)
-            l++;
-        lis[idx] = v[i].second;
+int lengthOfLIS(vector<int> nums) {
+    vector<int> v;
+    for (int i = 0; i < nums.size(); i++) {
+        auto it = upper_bound(v.begin(), v.end(), nums[i]);
+        if (it == v.end())
+            v.push_back(nums[i]);
+        else
+            *it = nums[i];
     }
-    return l;
+    return v.size();
 }
+
+//video
+https://www.youtube.com/watch?v=BGPpigA8EwA&t=304s

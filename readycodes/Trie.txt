@@ -33,6 +33,6 @@ public:
         if (childs[*it - 'a'] == NULL) {
             return false;
         }
-        return childs[*it - 'a']->isExist(it + 1, ed);
+        return childs[*it - 'a']->isPrefixExist(it + 1, ed);
     }
 };
